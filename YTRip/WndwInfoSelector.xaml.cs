@@ -225,6 +225,22 @@ namespace YTRip
 
         #endregion
 
+        #region AudioDownloadingEnabled
+
+        private bool _audioDownloadingEnabled = true;
+
+        public bool AudioDownloadingEnabled
+        {
+            get { return _audioDownloadingEnabled; }
+            set
+            {
+                _audioDownloadingEnabled = value;
+                RaisePropertyChanged("AudioDownloadingEnabled");
+            }
+        }
+
+        #endregion
+
         #region PropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -258,6 +274,12 @@ namespace YTRip
             switch (e.PropertyName)
             {
                 case "VideoInfo":
+                    //Check that audio can be extracted
+                    if (VideoInfo.Count(info => info.CanExtractAudio) == 0)
+                    {
+                        AudioDownloadingEnabled = false;
+                    }
+
                     //Add all the extensions to the extension list
                     foreach (VideoInfo element in VideoInfo)
                     {
@@ -313,10 +335,16 @@ namespace YTRip
                     //Is in the audio download tab
                     if (SelectedDownloadType == DownloadType.Audio)
                     {
-                        //Get all the videos with the selected audio format
-                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
-                                                                      .OrderBy(bitrate => bitrate.AudioBitrate)
-                                                                      .Distinct();
+                        //The list of audio that we can download
+                        IEnumerable<VideoInfo> validAudios = null;
+
+                        try
+                        {
+                            //Get all the videos with the selected audio format
+                            validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension && format.CanExtractAudio)
+                                                                          .OrderBy(bitrate => bitrate.AudioBitrate)
+                                                                          .Distinct();
+                        } catch { }
 
                         //Clear the current bitrates
                         AvailableAudioBitrates.Clear();
@@ -338,7 +366,7 @@ namespace YTRip
                     if (SelectedDownloadType == DownloadType.Audio)
                     {
                         //Get all the videos with the selected audio format
-                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
+                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension && format.CanExtractAudio)
                                                                       .OrderBy(bitrate => bitrate.AudioBitrate)
                                                                       .Distinct();
 

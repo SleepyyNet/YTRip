@@ -28,7 +28,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Download Audio">
+            <TabItem Header="Download Audio" IsEnabled="{Binding AudioDownloadingEnabled}">
                 <StackPanel Margin="0,5">
                     <TextBlock Text="Audio Type" Margin="0,0,0,2"/>
                     <ComboBox ItemsSource="{Binding AvailableAudioFormats}" HorizontalAlignment="Stretch"
