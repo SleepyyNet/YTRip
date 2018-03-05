@@ -18,6 +18,6 @@ Currently you can build YTRip to use it.
 
 ## Roadmap
 * Allow quick re-download (i.e. skip URL resolving for an already downloaded video)
-* Include license info in app
+* Include license info in-app
 * Allow the user to set the desired default download location
 * Create an installer and portable app package
