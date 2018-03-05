@@ -95,26 +95,37 @@ namespace YTRip
                     }
                     catch
                     {
-                        MessageBox.Show("We couldn't find a video with the resolution and format that you selected!");
+                        MessageBox.Show("We couldn't find a video with the stats that you selected!");
                         continue;
                     }
                 } else
                 {
-
+                    try
+                    {
+                        //Get the first video with the selected resolution and format and highest bitrate
+                        video = videoList.Where(info => info.AudioBitrate == infoSelector.SelectedAudioBitrate
+                        && info.AudioExtension == infoSelector.SelectedAudioExtension && info.CanExtractAudio)
+                                         .First();
+                        break;
+                    } catch
+                    {
+                        MessageBox.Show("We couldn't find an audio track with the stats that you selected!");
+                        continue;
+                    }
                 }
             }
-            
+
+            //If the video has an encrypted signature, decode it
+            if (video.RequiresDecryption)
+            {
+                DownloadUrlResolver.DecryptDownloadUrl(video);
+            }
+
+            //Get the download folder location
+            string downloadLocation = ShowFolderSelectionDialog();
+
             if (infoSelector.SelectedDownloadType == DownloadType.Video)
             {
-                //Get the download folder location
-                string downloadLocation = ShowFolderSelectionDialog();
-
-                //If the video has an encrypted signature, decode it
-                if (video.RequiresDecryption)
-                {
-                    DownloadUrlResolver.DecryptDownloadUrl(video);
-                }
-
                 //Create the downloader
                 VideoDownloader downloader = new VideoDownloader(video, Path.Combine(downloadLocation, DownloadItem.PathCleaner(video.Title) + video.VideoExtension));
 
@@ -127,6 +138,10 @@ namespace YTRip
                 CleanOnStartExtractionFail();
             } else
             {
+                //Create the audio downloader
+                AudioDownloader downloader = new AudioDownloader(video, Path.Combine(downloadLocation, DownloadItem.PathCleaner(video.Title) + video.AudioExtension));
+
+                //Create a new DownloadAudio item
 
             }
         }

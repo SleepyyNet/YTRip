@@ -34,23 +34,13 @@ namespace YTRip
         /// <param name="downloader"></param>
         private async void StartDownload()
         {
-            Downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+            Downloader.DownloadProgressChanged += (sender, args) => DownloadProgress = args.ProgressPercentage;
             await Task.Run(() => DownloadVideo());
         }
 
         private void DownloadVideo()
         {
             Downloader.Execute();
-        }
-
-        /// <summary>
-        /// Invoked when the download percentage changes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Downloader_DownloadProgressChanged(object sender, ProgressEventArgs e)
-        {
-            DownloadProgress = e.ProgressPercentage;
         }
     }
 }
