@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace YTRipV2.Properties
+namespace YTRip.Properties
 {
 
 

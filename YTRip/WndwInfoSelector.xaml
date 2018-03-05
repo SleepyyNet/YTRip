@@ -1,0 +1,45 @@
+﻿<Window x:Class="YTRip.WndwInfoSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YTRip"
+        mc:Ignorable="d"
+        Title="WndwInfoSelector" Width="300" SizeToContent="Height" WindowStyle="None" ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner" KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+        <local:DownloadTypeToInt32 x:Key="DownloadTypeToInt32"/>
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical" Margin="10">
+        <TabControl SelectedIndex="{Binding SelectedDownloadType, Converter={StaticResource DownloadTypeToInt32}}">
+            <TabItem Header="Download Video">
+                <StackPanel Margin="0,5">
+                    <TextBlock Text="Video Type" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AvailableVideoFormats}" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding SelectedVideoExtension, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Video Resolution" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AvailableVideoResolutions}" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding SelectedVideoResolution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Audio Bitrate" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AvailableAudioBitrates}" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding SelectedAudioBitrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Download Audio">
+                <StackPanel Margin="0,5">
+                    <TextBlock Text="Audio Type" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AvailableAudioFormats}" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding SelectedAudioExtension, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Audio Bitrate" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AvailableAudioBitrates}" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding SelectedAudioBitrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <Button x:Name="BtnDownload" Click="BtnDownload_Click" Content="Download" Height="25" IsDefault="True"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="YTRip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YTRip"
+        mc:Ignorable="d"
+        Title="YTRip" Width="600" SizeToContent="Height">
+
+    <Window.Resources>
+        <local:DoubleToShortPercentageConverter x:Key="DoubleToShortPercentageConverter"/>
+        
+        <DataTemplate x:Key="DownloadItemTemplate">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ItemName}"/>
+                    <TextBlock Text="(" Margin="10,0,0,0"/>
+                    <TextBlock Text="{Binding DownloadProgress, Converter={StaticResource DoubleToShortPercentageConverter}}"/>
+                    <TextBlock Text="%)"/>
+                </StackPanel>
+                <ProgressBar Value="{Binding DownloadProgress}" VerticalAlignment="Stretch" Height="2"
+                             Margin="0,2,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <StackPanel Orientation="Vertical" Margin="10">
+        <TextBox Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                 VerticalContentAlignment="Center" Height="30"/>
+        <Button x:Name="BtnExtract" Click="BtnExtract_Click" Margin="0,10" Content="Download" Height="30"/>
+        <ItemsControl ItemsSource="{Binding DownloadingItems}" ItemTemplate="{StaticResource DownloadItemTemplate}"/>
+    </StackPanel>
+</Window>

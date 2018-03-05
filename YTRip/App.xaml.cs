@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace YTRipV2
+namespace YTRip
 {
     /// <summary>
     /// Interaction logic for App.xaml
