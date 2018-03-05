@@ -67,7 +67,7 @@ namespace YTRip
             if (videoList == null)
             {
                 MessageBox.Show("The URL entered is not a valid YouTube video URL!");
-                CleanOnStartExtractionFail();
+                CleanAfterExtraction();
                 return;
             }
 
@@ -132,16 +132,22 @@ namespace YTRip
                 //Create a new DownloadVideo item
                 DownloadVideoItem item = new DownloadVideoItem(DownloadType.Video, video.Title, downloader);
 
-                //Add a new DownloadingVideo item
+                //Add a new DownloadVideoItem
                 DownloadingItems.Add(item);
 
-                CleanOnStartExtractionFail();
+                CleanAfterExtraction();
             } else
             {
                 //Create the audio downloader
                 AudioDownloader downloader = new AudioDownloader(video, Path.Combine(downloadLocation, DownloadItem.PathCleaner(video.Title) + video.AudioExtension));
 
                 //Create a new DownloadAudio item
+                DownloadAudioItem item = new DownloadAudioItem(DownloadType.Audio, video.Title, downloader);
+
+                //Add the new DownloadAudioItem
+                DownloadingItems.Add(item);
+
+                CleanAfterExtraction();
 
             }
         }
@@ -226,7 +232,7 @@ namespace YTRip
         /// <summary>
         /// Re-enables the download button
         /// </summary>
-        private void CleanOnStartExtractionFail()
+        private void CleanAfterExtraction()
         {
             //Allow downloading again
             BtnExtract.IsEnabled = true;
