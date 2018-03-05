@@ -89,8 +89,7 @@ namespace YTRip
                     {
                         //Get the first video with the selected resolution and format and highest bitrate
                         video = videoList.Where(info => info.Resolution == infoSelector.SelectedVideoResolution
-                        && info.VideoExtension == infoSelector.SelectedVideoExtension)
-                                         .OrderByDescending(bitrate => bitrate.AudioBitrate)
+                        && info.VideoExtension == infoSelector.SelectedVideoExtension && info.AudioBitrate == infoSelector.SelectedAudioBitrate)
                                          .First();
                         break;
                     }

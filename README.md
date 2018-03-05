@@ -17,7 +17,6 @@ And
 Currently you can build YTRip to use it.
 
 ## Roadmap
-* Bugfixes for current release!
 * Include audio download features
 * Include license info in app
 * Allow the user to set the desired default download location
