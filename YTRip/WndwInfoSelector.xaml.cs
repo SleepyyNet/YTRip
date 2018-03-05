@@ -269,6 +269,8 @@ namespace YTRip
 
                     //Sort the format list
                     AvailableVideoFormats.OrderBy(format => format);
+
+                    //Set the selected video extension
                     SelectedVideoExtension = AvailableVideoFormats[0];
 
                     //Add all the audio extensions to the extension list
@@ -282,6 +284,8 @@ namespace YTRip
 
                     //Sort the list
                     AvailableAudioFormats.OrderBy(format => format);
+
+                    //Set the selected audio extension
                     SelectedAudioExtension = AvailableAudioFormats[0];
                     break;
 
@@ -305,62 +309,92 @@ namespace YTRip
                     break;
 
                 case "SelectedAudioFormat":
-                    //Get all the videos with the selected audio format
-                    IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
-                                                                  .OrderBy(bitrate => bitrate.AudioBitrate)
-                                                                  .Distinct();
-
-                    //Clear the current bitrates
-                    AvailableAudioBitrates.Clear();
-
-                    //Add the bitrates to the list
-                    foreach (VideoInfo element in validAudios)
+                    //Because audio bitrate selection is used in the Video info selection, only update it if the user
+                    //Is in the audio download tab
+                    if (SelectedDownloadType == DownloadType.Audio)
                     {
-                        AvailableAudioBitrates.Add(element.AudioBitrate);
-                    }
+                        //Get all the videos with the selected audio format
+                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
+                                                                      .OrderBy(bitrate => bitrate.AudioBitrate)
+                                                                      .Distinct();
 
-                    //Select the highest bitrate
-                    SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                        //Clear the current bitrates
+                        AvailableAudioBitrates.Clear();
+
+                        //Add the bitrates to the list
+                        foreach (VideoInfo element in validAudios)
+                        {
+                            AvailableAudioBitrates.Add(element.AudioBitrate);
+                        }
+
+                        //Select the highest bitrate
+                        SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                    }
                     break;
                 
                 //We need to reset the selectable audio bitrates, as may have been updated when SelectedVideoResolution changes
                 case "SelectedDownloadType":
-                    //Get all the videos with the selected audio format
-                    validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
-                                                                  .OrderBy(bitrate => bitrate.AudioBitrate)
-                                                                  .Distinct();
-
-                    //Clear the current bitrates
-                    AvailableAudioBitrates.Clear();
-
-                    //Add the bitrates to the list
-                    foreach (VideoInfo element in validAudios)
+                    //Check that the audio download tab is selected
+                    if (SelectedDownloadType == DownloadType.Audio)
                     {
-                        AvailableAudioBitrates.Add(element.AudioBitrate);
-                    }
+                        //Get all the videos with the selected audio format
+                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.AudioExtension == SelectedAudioExtension)
+                                                                      .OrderBy(bitrate => bitrate.AudioBitrate)
+                                                                      .Distinct();
 
-                    //Select the highest bitrate
-                    SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                        //Clear the current bitrates
+                        AvailableAudioBitrates.Clear();
+
+                        //Add the bitrates to the list
+                        foreach (VideoInfo element in validAudios)
+                        {
+                            AvailableAudioBitrates.Add(element.AudioBitrate);
+                        }
+
+                        //Select the highest bitrate
+                        SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                    } else
+                    {
+                        //Get all the videos with the selected resolution
+                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.Resolution == SelectedVideoResolution && format.VideoExtension == SelectedVideoExtension)
+                                                                      .OrderBy(bitrate => bitrate.AudioBitrate)
+                                                                      .Distinct();
+
+                        //Clear the current bitrates
+                        AvailableAudioBitrates.Clear();
+
+                        //Add the bitrates to the list
+                        foreach (VideoInfo element in validAudios)
+                        {
+                            AvailableAudioBitrates.Add(element.AudioBitrate);
+                        }
+
+                        //Select the highest bitrate
+                        SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                    }
                     break;
 
                 //Change the available audio bitrates based on the resolution and format of the video selected
                 case "SelectedVideoResolution":
-                    //Get all the videos with the selected resolution
-                    validAudios = VideoInfo.Where(format => format.Resolution == SelectedVideoResolution && format.VideoExtension == SelectedVideoExtension)
-                                                                  .OrderBy(bitrate => bitrate.AudioBitrate)
-                                                                  .Distinct();
-
-                    //Clear the current bitrates
-                    AvailableAudioBitrates.Clear();
-
-                    //Add the bitrates to the list
-                    foreach (VideoInfo element in validAudios)
+                    if (SelectedDownloadType == DownloadType.Video)
                     {
-                        AvailableAudioBitrates.Add(element.AudioBitrate);
-                    }
+                        //Get all the videos with the selected resolution
+                        IEnumerable<VideoInfo> validAudios = VideoInfo.Where(format => format.Resolution == SelectedVideoResolution && format.VideoExtension == SelectedVideoExtension)
+                                                                      .OrderBy(bitrate => bitrate.AudioBitrate)
+                                                                      .Distinct();
 
-                    //Select the highest bitrate
-                    SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                        //Clear the current bitrates
+                        AvailableAudioBitrates.Clear();
+
+                        //Add the bitrates to the list
+                        foreach (VideoInfo element in validAudios)
+                        {
+                            AvailableAudioBitrates.Add(element.AudioBitrate);
+                        }
+
+                        //Select the highest bitrate
+                        SelectedAudioBitrate = AvailableAudioBitrates.Last();
+                    }
                     break;
             }
         }
