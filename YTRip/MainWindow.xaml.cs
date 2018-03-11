@@ -23,22 +23,8 @@ namespace YTRip
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region ExtractionUrl
-
-        private string _extractionUrl;
-
-        /// <summary>
-        /// The URL from which to extract the video / playlist
-        /// </summary>
-        public string ExtractionUrl
-        {
-            get { return _extractionUrl; }
-            set { _extractionUrl = value; }
-        }
-
-        #endregion
-
-        public ObservableCollection<DownloadItem> DownloadingItems { get; set; } = new ObservableCollection<DownloadItem>();
+        const string DOWNLOAD_TEXT_QUERY = "Download";
+        const string WAIT_TEXT = "Please wait...";
 
         public MainWindow()
         {
@@ -56,10 +42,9 @@ namespace YTRip
         {
             //The list of videos available for download
             IEnumerable<VideoInfo> videoList = null;
-            
+
             //Prevent another video being downloaded
-            BtnExtract.IsEnabled = false;
-            BtnExtract.Content = "Please wait...";
+            DisableExtractionButton(WAIT_TEXT);
             
             //Get the video info
             videoList = await Task.Run(() => ResolveURL(ExtractionUrl));
@@ -67,7 +52,7 @@ namespace YTRip
             if (videoList == null)
             {
                 MessageBox.Show("The URL entered is not a valid YouTube video URL!");
-                CleanAfterExtraction();
+                EnableExtractionButton(DOWNLOAD_TEXT_QUERY);
                 return;
             }
 
@@ -135,7 +120,7 @@ namespace YTRip
                 //Add a new DownloadVideoItem
                 DownloadingItems.Add(item);
 
-                CleanAfterExtraction();
+                EnableExtractionButton(DOWNLOAD_TEXT_QUERY);
             } else
             {
                 //Create the audio downloader
@@ -147,7 +132,7 @@ namespace YTRip
                 //Add the new DownloadAudioItem
                 DownloadingItems.Add(item);
 
-                CleanAfterExtraction();
+                EnableExtractionButton(DOWNLOAD_TEXT_QUERY);
 
             }
         }
@@ -179,7 +164,7 @@ namespace YTRip
         }
 
         /// <summary>
-        /// Resolves a YouTube URL
+        /// Resolves a YouTube URL. Used asyncronously
         /// </summary>
         /// <param name="URL">The URL to resolve</param>
         /// <returns>The list of video files available for download</returns>
@@ -227,16 +212,6 @@ namespace YTRip
             cd.Dispose();
 
             return selectedLocation;
-        }
-
-        /// <summary>
-        /// Re-enables the download button
-        /// </summary>
-        private void CleanAfterExtraction()
-        {
-            //Allow downloading again
-            BtnExtract.IsEnabled = true;
-            BtnExtract.Content = "Download";
         }
     }
 }

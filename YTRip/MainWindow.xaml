@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YTRip"
+        xmlns:cefsharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="YTRip" Width="600" SizeToContent="Height">
+        Title="YTRip" Width="1080" Height="720">
 
     <Window.Resources>
         <local:DoubleToShortPercentageConverter x:Key="DoubleToShortPercentageConverter"/>
@@ -23,12 +24,23 @@
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
-    
-    <StackPanel Orientation="Vertical" Margin="10">
-        <TextBox Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Margin="10" Grid.Row="0">
+            <cefsharp:ChromiumWebBrowser Address="https://www.youtube.com"/>
+            <TextBox Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                  VerticalContentAlignment="Center" Height="30"/>
-        <Button x:Name="BtnExtract" Click="BtnExtract_Click" Margin="0,10" Content="Download" Height="30"/>
-        <ItemsControl ItemsSource="{Binding DownloadingItems}" ItemTemplate="{StaticResource DownloadItemTemplate}"/>
-    </StackPanel>
+            <Button x:Name="BtnExtract" Click="BtnExtract_Click" Margin="0,10" Content="{Binding ExtractButtonContent}"
+                    Height="30" IsEnabled="{Binding IsExtractButtonEnabled}"/>
+            <ItemsControl ItemsSource="{Binding DownloadingItems}" ItemTemplate="{StaticResource DownloadItemTemplate}"/>
+        </StackPanel>
+
+        <cefsharp:ChromiumWebBrowser Address="https://www.youtube.com" Grid.Row="1"/>
+    </Grid>
 </Window>
