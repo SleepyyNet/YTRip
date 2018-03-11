@@ -12,7 +12,7 @@ namespace YTRip
     {
         #region ExtractionUrl
 
-        private string _extractionUrl;
+        private string _extractionUrl = "https://www.youtube.com";
 
         /// <summary>
         /// The entered extraction URL

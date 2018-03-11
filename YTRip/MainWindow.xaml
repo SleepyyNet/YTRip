@@ -31,16 +31,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Margin="10" Grid.Row="0">
-            <cefsharp:ChromiumWebBrowser Address="https://www.youtube.com"/>
-            <TextBox Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                 VerticalContentAlignment="Center" Height="30"/>
-            <Button x:Name="BtnExtract" Click="BtnExtract_Click" Margin="0,10" Content="{Binding ExtractButtonContent}"
-                    Height="30" IsEnabled="{Binding IsExtractButtonEnabled}"/>
-            <ItemsControl ItemsSource="{Binding DownloadingItems}" ItemTemplate="{StaticResource DownloadItemTemplate}"/>
-        </StackPanel>
+        
 
-        <cefsharp:ChromiumWebBrowser Address="https://www.youtube.com" Grid.Row="1"/>
+        <cefsharp:ChromiumWebBrowser Address="{Binding ExtractionUrl}" Grid.Row="1"/>
     </Grid>
 </Window>
