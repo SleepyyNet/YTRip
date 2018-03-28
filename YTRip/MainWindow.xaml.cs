@@ -26,12 +26,6 @@ namespace YTRip
         const string DOWNLOAD_TEXT_QUERY = "Download";
         const string WAIT_TEXT = "Please wait...";
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = this;
-        }
-
         /// <summary>
         /// Invoked when BtnExtract is clicked
         /// Starts the extraction process of a video or playlist

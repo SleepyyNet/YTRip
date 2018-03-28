@@ -9,17 +9,17 @@
         Title="YTRip" Width="1080" Height="720">
 
     <Window.Resources>
-        <local:DoubleToShortPercentageConverter x:Key="DoubleToShortPercentageConverter"/>
-        
+        <local:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
+
         <DataTemplate x:Key="DownloadItemTemplate">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding ItemName}"/>
                     <TextBlock Text="(" Margin="10,0,0,0"/>
-                    <TextBlock Text="{Binding DownloadProgress, Converter={StaticResource DoubleToShortPercentageConverter}}"/>
+                    <TextBlock Text="{Binding DownloadProgress}"/>
                     <TextBlock Text="%)"/>
                 </StackPanel>
-                <ProgressBar Value="{Binding DownloadProgress}" VerticalAlignment="Stretch" Height="2"
+                <ProgressBar Value="{Binding DownloadProgress, Converter={StaticResource StringToDoubleConverter}}" VerticalAlignment="Stretch" Height="2"
                              Margin="0,2,0,0"/>
             </StackPanel>
         </DataTemplate>
@@ -31,7 +31,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
 
         <cefsharp:ChromiumWebBrowser Address="{Binding ExtractionUrl}" Grid.Row="1"/>
     </Grid>

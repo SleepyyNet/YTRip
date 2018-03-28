@@ -7,6 +7,9 @@ using YoutubeExtractor;
 
 namespace YTRip
 {
+    /// <summary>
+    /// The logic for a downloadable video
+    /// </summary>
     class DownloadVideoItem : DownloadItem
     {
         public DownloadVideoItem()
@@ -34,13 +37,21 @@ namespace YTRip
         /// <param name="downloader"></param>
         private async void StartDownload()
         {
-            Downloader.DownloadProgressChanged += (sender, args) => DownloadProgress = args.ProgressPercentage;
+            //Update DownloadProgress when required
+            Downloader.DownloadProgressChanged += (sender, args) => DownloadProgress = DoubleToShortPercentage(args.ProgressPercentage);
+            //Run the downloader thread
             await Task.Run(() => DownloadVideo());
         }
 
+        /// <summary>
+        /// Downloads a video
+        /// </summary>
         private void DownloadVideo()
         {
+            //Start the download
             Downloader.Execute();
+            //Set the download progress to complete
+            DownloadProgress = "Complete";
         }
     }
 }

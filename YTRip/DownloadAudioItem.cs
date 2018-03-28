@@ -7,17 +7,12 @@ using YoutubeExtractor;
 
 namespace YTRip
 {
+    /// <summary>
+    /// The logic for a downloadable audio item
+    /// </summary>
     public class DownloadAudioItem : DownloadItem
     {
-        /// <summary>
-        /// Downloads the video for us
-        /// </summary>
-        public AudioDownloader Downloader;
-
-        public DownloadAudioItem()
-        {
-
-        }
+        public DownloadAudioItem() { }
 
         public DownloadAudioItem(DownloadType type, string name, AudioDownloader downloader)
         {
@@ -29,6 +24,11 @@ namespace YTRip
         }
 
         /// <summary>
+        /// Downloads the audio for us
+        /// </summary>
+        public AudioDownloader Downloader;
+
+        /// <summary>
         /// Starts the download process
         /// </summary>
         /// <param name="downloader"></param>
@@ -36,16 +36,22 @@ namespace YTRip
         {
             // Register the progress events. We treat the download progress as 85% of the progress and the extraction progress only as 15% of the progress,
             // because the download will take much longer than the audio extraction.
-            Downloader.DownloadProgressChanged += (sender, args) => DownloadProgress = args.ProgressPercentage * 0.85;
+            Downloader.DownloadProgressChanged += (sender, args) => DownloadProgress = DoubleToShortPercentage(args.ProgressPercentage * 0.85);
             Downloader.AudioExtractionProgressChanged += (sender, args) => Console.WriteLine(85 + args.ProgressPercentage * 0.15);
 
             //Start the download
-            await Task.Run(() => DownloadVideo());
+            await Task.Run(() => DownloadAudio());
         }
 
-        private void DownloadVideo()
+        /// <summary>
+        /// Downloads the audio
+        /// </summary>
+        private void DownloadAudio()
         {
+            //Start the download
             Downloader.Execute();
+            //Set the download progress to complete
+            DownloadProgress = "Complete";
         }
     }
 }

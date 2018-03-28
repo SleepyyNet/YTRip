@@ -95,7 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DoubleToShortPercentageConverter.cs" />
+    <Compile Include="StringToDoubleConverter.cs" />
     <Compile Include="DownloadAudioItem.cs" />
     <Compile Include="DownloadItem.cs" />
     <Compile Include="DownloadVideoItem.cs" />

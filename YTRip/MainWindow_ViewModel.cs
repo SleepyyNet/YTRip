@@ -20,7 +20,14 @@ namespace YTRip
         public string ExtractionUrl
         {
             get { return _extractionUrl; }
-            set { _extractionUrl = value; }
+            set
+            {
+                //Check that the URL is valid, else reset to youtube.com
+                if (!YoutubeExtractor.DownloadUrlResolver.TryNormalizeYoutubeUrl(ExtractionUrl, out _extractionUrl))
+                {
+                    _extractionUrl = "https://www.youtube.com";
+                }
+            }
         }
 
         #endregion
@@ -96,6 +103,12 @@ namespace YTRip
         }
 
         #endregion
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = this;
+        }
 
         /// <summary>
         /// Disables the extraction button and sets its content to the passed object

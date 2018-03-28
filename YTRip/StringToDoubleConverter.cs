@@ -8,10 +8,10 @@ using System.Windows.Data;
 
 namespace YTRip
 {
-    class DoubleToShortPercentageConverter : IValueConverter
+    class StringToDoubleConverter : IValueConverter
     {
         /// <summary>
-        /// Converts a double to a string representing the double to 0dp
+        /// Converts a string to a double
         /// </summary>
         /// <param name="value">The input value</param>
         /// <param name="targetType">The type to convert to</param>
@@ -20,9 +20,13 @@ namespace YTRip
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is double)
+            if (value is string)
             {
-                return Math.Round((double)value, 0).ToString();
+                double convertedValue;
+                //Try to convert the string
+                double.TryParse(value as string, out convertedValue);
+
+                return convertedValue;
             } else
             {
                 return null;

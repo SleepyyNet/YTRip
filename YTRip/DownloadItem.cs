@@ -9,7 +9,10 @@ using YoutubeExtractor;
 
 namespace YTRip
 {
-    public class DownloadItem : INotifyPropertyChanged
+    /// <summary>
+    /// The base class for a downloadable item
+    /// </summary>
+    public abstract class DownloadItem : INotifyPropertyChanged
     {
         public DownloadItem()
         {
@@ -42,6 +45,9 @@ namespace YTRip
 
         private string _itemName;
 
+        /// <summary>
+        /// The name of the downloading item
+        /// </summary>
         public string ItemName
         {
             get { return _itemName; }
@@ -56,9 +62,12 @@ namespace YTRip
 
         #region DownloadProgress
 
-        private double _downloadProgress = 0;
+        private string _downloadProgress;
 
-        public double DownloadProgress
+        /// <summary>
+        /// The progress of the download
+        /// </summary>
+        public string DownloadProgress
         {
             get { return _downloadProgress; }
             set
@@ -93,6 +102,16 @@ namespace YTRip
         public static string PathCleaner(string fileName)
         {
             return String.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+        }
+
+        /// <summary>
+        /// Converts a double to a string representing the double to 0dp
+        /// </summary>
+        /// <param name="value">The <see cref="double"/> value to return as a short percentage</param>
+        /// <returns></returns>
+        public string DoubleToShortPercentage(double value)
+        {
+            return Math.Round(value, 0).ToString();
         }
     }
 }
