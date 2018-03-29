@@ -118,7 +118,12 @@
                     <Image Source="/Resources/Refresh.png"/>
                 </Button.Content>
             </Button>
-            <Button x:Name="BtnDownload" Grid.Column="4" Margin="0,5,5,5" Style="{StaticResource BrowserButtonStyle}"/>
+            <Button x:Name="BtnDownload" Grid.Column="4" Margin="0,5,5,5"
+                    Style="{StaticResource BrowserButtonStyle}">
+                <Button.Content>
+                    <Image Source="/Resources/Download.png"/>
+                </Button.Content>
+            </Button>
         </Grid>
 
         <cefsharp:ChromiumWebBrowser Address="{Binding ExtractionUrl}" Grid.Row="1"/>
