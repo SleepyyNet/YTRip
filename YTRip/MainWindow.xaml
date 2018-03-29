@@ -112,7 +112,12 @@
                     <Image Source="/Resources/ForwardArrow.png"/>
                 </Button.Content>
             </Button>
-            <Button x:Name="BtnRefresh" Grid.Column="3" Margin="0,5,0,5" Style="{StaticResource BrowserButtonStyle}"/>
+            <Button x:Name="BtnRefresh" Grid.Column="3" Margin="0,5,0,5"
+                    Style="{StaticResource BrowserButtonStyle}">
+                <Button.Content>
+                    <Image Source="/Resources/Refresh.png"/>
+                </Button.Content>
+            </Button>
             <Button x:Name="BtnDownload" Grid.Column="4" Margin="0,5,5,5" Style="{StaticResource BrowserButtonStyle}"/>
         </Grid>
 
