@@ -32,7 +32,7 @@ namespace YTRip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void BtnExtract_Click(object sender, RoutedEventArgs e)
+        private async void Extract()
         {
             //The list of videos available for download
             IEnumerable<VideoInfo> videoList = null;

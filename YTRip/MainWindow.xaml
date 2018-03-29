@@ -82,6 +82,10 @@
         </Style>
     </Window.Resources>
 
+    <Window.CommandBindings>
+        <CommandBinding Command="local:Commands.Download" Executed="CmdDownload_Executed" CanExecute="CmdDownload_CanExecute"/>
+    </Window.CommandBindings>
+
     <Grid Background="{StaticResource DefaultBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -118,8 +122,8 @@
                     <Image Source="/Resources/Refresh.png"/>
                 </Button.Content>
             </Button>
-            <Button x:Name="BtnDownload" Grid.Column="4" Margin="0,5,5,5"
-                    Style="{StaticResource BrowserButtonStyle}">
+            <Button x:Name="BtnExtract" Grid.Column="4" Margin="0,5,5,5"
+                    Style="{StaticResource BrowserButtonStyle}" Command="local:Commands.Download">
                 <Button.Content>
                     <Image Source="/Resources/Download.png"/>
                 </Button.Content>

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace YTRip
 {
@@ -128,6 +129,28 @@ namespace YTRip
         {
             IsExtractionButtonEnabled = false;
             ExtractButtonContent = content;
+        }
+
+        /// <summary>
+        /// Called when the <see cref="Commands.Download"/> command is executed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmdDownload_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //Start the extraction process
+            Extract();
+        }
+
+        /// <summary>
+        /// Checks to see if <see cref="Commands.Download"/> should be enabled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmdDownload_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            //Use the default for now
+            e.CanExecute = true;
         }
     }
 }

@@ -14,17 +14,6 @@ namespace YTRip
     /// </summary>
     public abstract class DownloadItem : INotifyPropertyChanged
     {
-        public DownloadItem()
-        {
-
-        }
-
-        public DownloadItem(DownloadType type, string name)
-        {
-            DType = type;
-            ItemName = name;
-        }
-
         #region DType
 
         private DownloadType _dType;
