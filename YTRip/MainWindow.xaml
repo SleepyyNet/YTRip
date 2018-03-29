@@ -9,6 +9,8 @@
         Title="YTRip" Width="1080" Height="720">
 
     <Window.Resources>
+        <SolidColorBrush x:Key="DefaultBackgroundColor" Color="#EEEEEE"/>
+        <Color x:Key="DefaultColor">#EEEEEE</Color>
         <local:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
 
         <DataTemplate x:Key="DownloadItemTemplate">
@@ -23,24 +25,95 @@
                              Margin="0,2,0,0"/>
             </StackPanel>
         </DataTemplate>
+        
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#CCCCCC"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#CCCCCC"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="BrowserButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource DefaultBackgroundColor}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="{StaticResource DefaultBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Height="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBlock Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox Text="{Binding ExtractionUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       FontSize="14" Margin="5" VerticalContentAlignment="Center" Background="White"
+                     BorderBrush="LightGray" Padding="3,0"/>
+            <Button x:Name="BtnBack" Grid.Column="1"
+                    Style="{DynamicResource BrowserButtonStyle}" Margin="5,5,0,5">
+                <Button.Content>
+                    <Image Source="/Resources/BackwardArrow.png"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="BtnForward" Grid.Column="2" Margin="0,5,0,5"
+                    Style="{StaticResource BrowserButtonStyle}">
+                <Button.Content>
+                    <Image Source="/Resources/ForwardArrow.png"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="BtnRefresh" Grid.Column="3" Margin="0,5,0,5" Style="{StaticResource BrowserButtonStyle}"/>
+            <Button x:Name="BtnDownload" Grid.Column="4" Margin="0,5,5,5" Style="{StaticResource BrowserButtonStyle}"/>
         </Grid>
 
         <cefsharp:ChromiumWebBrowser Address="{Binding ExtractionUrl}" Grid.Row="1"/>
