@@ -14,4 +14,4 @@ And
 [GNU General Public License version 2](https://opensource.org/licenses/GPL-2.0) for the audio extraction code, originally from [FlvExtract](http://moitah.net)
 
 ## Installing
-Currently you can build YTRip to use it.
+Currently, you can build YTRip to use it.
